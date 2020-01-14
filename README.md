@@ -34,4 +34,4 @@
        
  - To clear all members and relations
       
-       family-tree list ALEX MOTHER
+       family-tree clear
