@@ -74,7 +74,7 @@ func createTables(db *sql.DB) error {
 }
 
 func (d dataStore)Clear() error {
-	statement := `TRUNCATE member, relation, relationship`
+	statement := `TRUNCATE member, relation, family_relation`
 	_, err := d.db.Exec(statement)
 	if err != nil {
 		return errors.Errorf("Failed to delete data: %v", err)
@@ -84,9 +84,9 @@ func (d dataStore)Clear() error {
 
 type Service interface {
 	Clear() error
-	AddMember(member string) error
+	AddMember(name string) error
 	AddRelation(relation string) error
 	DefineRelation(firstMember string, relation string, secondMember string) error
 	CountRelations(name string, relation string) (int, error)
-	ListRelations(name string, relation string) (int, error)
+	ListRelations(name string, relation string) ([]string, error)
 }
