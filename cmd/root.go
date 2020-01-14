@@ -25,7 +25,8 @@ func Execute() {
 }
 
 func init() {
-	dbService, err := storage.Connect()
+	var err error
+	dbService, err = storage.Connect()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to connect to database: %v\n", err)
 		os.Exit(2)
