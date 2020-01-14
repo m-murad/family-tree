@@ -8,6 +8,22 @@ import (
 func (d dataStore)DefineRelation(firstMember string, relation string, secondMember string) error {
 	statement := `INSERT INTO family_relation (first_member, relation, second_member) VALUES ($1, $2, $3)`
 	if _, err := d.db.Exec(statement, firstMember, relation, secondMember); err != nil {
+		if strings.Contains(err.Error(), `violates foreign key constraint "family_relation_relation_fkey"`) {
+			return errors.Errorf("%s is not a relation", relation)
+		}
+		if strings.Contains(err.Error(), `violates foreign key constraint "family_relation_first_member_fkey"`) {
+			return errors.Errorf("%s is not a member", firstMember)
+		}
+		if strings.Contains(err.Error(), `violates foreign key constraint "family_relation_second_member_fkey"`) {
+			return errors.Errorf("%s is not a member", secondMember)
+		}
+		if strings.Contains(err.Error(), `violates unique constraint "family_relation_first_member_relation_second_member_key"`) {
+			return errors.New("This relationship already exists")
+		}
+		if strings.Contains(err.Error(), `violates unique constraint "family_relation_first_member_second_member_key"`) {
+			return errors.Errorf("A different relationship already exists between %s and %s", firstMember, secondMember)
+		}
+
 		return errors.Errorf("Failed to add member: %v", err)
 	}
 	return nil
