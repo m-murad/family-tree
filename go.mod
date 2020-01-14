@@ -1,4 +1,4 @@
-module github.com/m-murad/finleap
+module github.com/m-murad/family-tree
 
 go 1.13
 

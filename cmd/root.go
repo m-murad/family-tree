@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/m-murad/finleap/storage"
+	"github.com/m-murad/family-tree/storage"
 	"github.com/spf13/cobra"
 	"os"
 )
